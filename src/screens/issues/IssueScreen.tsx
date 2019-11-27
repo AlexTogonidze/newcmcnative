@@ -39,6 +39,8 @@ function IssuesScreen(props) {
   const [sortStatus, setSortStatus] = useState();
   const [sortedIssues, setSortedIssues] = useState();
   const [sortLoader, setSortLoader] = useState();
+  const [desc, setDesc] = useState();
+  const [onlyActive, setOnlyActive] = useState();
 
   const radio_props = [
     {label: 'All', value: 0},
@@ -90,6 +92,26 @@ function IssuesScreen(props) {
         count,
         offset,
         onlyActive: value,
+      },
+    });
+
+    if (resp && resp.data && resp.data.payload) {
+      setSortLoader(false);
+      setSortedIssues(resp.data.payload.data.projectViews);
+    }
+  };
+
+
+  const sortByDesc = async (value: boolean) => {
+    setSortLoader(true);
+    setDesc(!desc);
+    var resp = await client.mutate({
+      mutation: LIST_ALL_ISSUES,
+      variables: {
+        count,
+        offset,
+        onlyActive: onlyActive,
+        desc
       },
     });
 
@@ -193,7 +215,7 @@ function IssuesScreen(props) {
           </Text>
           <View style={st.row}>
             <Text>Asc</Text>
-            <Switch onValueChange={sortByStatus} value={sortStatus}/>
+            <Switch onValueChange={sortByDesc} value={desc}/>
             <Text>Desc</Text>
           </View> 
         </View>
