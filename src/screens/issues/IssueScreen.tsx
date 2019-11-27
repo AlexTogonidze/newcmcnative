@@ -12,7 +12,7 @@ import {
   Dimensions,
   Alert,
   ActivityIndicator,
-  Switch,
+  Switch
 } from 'react-native';
 import {useApolloClient, useQuery} from 'react-apollo-hooks';
 import ScreenHeader from '../../components/ScreenHeader';
@@ -38,7 +38,7 @@ function IssuesScreen(props) {
   const [selected, setSelected] = useState(0);
   const [sortStatus, setSortStatus] = useState();
   const [sortedIssues, setSortedIssues] = useState();
-  const [sortLoader, setSortLoader] = useState(false);
+  const [sortLoader, setSortLoader] = useState();
 
   const radio_props = [
     {label: 'All', value: 0},
@@ -187,10 +187,15 @@ function IssuesScreen(props) {
   return (
     <View style={{flex: 1}}>
       <View style={{paddingTop: 15, paddingHorizontal: 20}}>
-        <View>
+        <View style={st.topContainer}>
           <Text style={st.projectText}>
             All Issues: {resp.payload.dataSize}
           </Text>
+          <View style={st.row}>
+            <Text>Asc</Text>
+            <Switch onValueChange={sortByStatus} value={sortStatus}/>
+            <Text>Desc</Text>
+          </View> 
         </View>
 
         <View style={st.topContainer}>
@@ -209,18 +214,14 @@ function IssuesScreen(props) {
             />
           </View>
 
-          {/* <View style={st.row}>
-            <Text>All</Text>
+           <View style={st.row}>
+            <Text>Resolved</Text>
             <Switch onValueChange={sortByStatus} value={sortStatus}/>
             <Text>Active</Text>
           </View>
 
-          <View style={st.row}>
-            <Text>Asc</Text>
-            <Switch onValueChange={sortByStatus} value={sortStatus}/>
-            <Text>Desc</Text>
-          </View> */}
-          <View>
+        
+          {/* <View>
               <RadioForm formHorizontal={true} animation={true}>
                 {radio_props.map((obj, i) => (
                   <RadioButton labelHorizontal={true} key={i}>
@@ -264,7 +265,7 @@ function IssuesScreen(props) {
                   </RadioButton>
                 ))}
               </RadioForm>
-            </View> 
+            </View>  */}
         </View>
       </View>
 
@@ -289,7 +290,7 @@ var st = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginVertical: 15,
+    marginBottom: 15,
   },
   projectName: {
     textTransform: 'capitalize',

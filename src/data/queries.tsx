@@ -170,12 +170,13 @@ export const SIGN_UP = gql`
 `;
 
 export const LIST_PROJECTS = gql`
-  query ListProjects($count: Int, $offset: Int, $sortBy: String, $desc: Boolean) {
+  query ListProjects($count: Int, $offset: Int, $sortBy: String, $desc: Boolean, $onlyActive: Boolean) {
     payload(
         count: $count, 
         offset: $offset,
         sortBy: $sortBy,
-        desc: $desc
+        desc: $desc,
+        onlyActive: $onlyActive
         )
       @rest(
         type: "ListProjects"
